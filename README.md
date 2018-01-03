@@ -38,6 +38,7 @@ rainbow@rainbow-T3500:~/catkin_ws$ ls
 build  devel  src
 ~~~
 ## Install GPS Driver
+Refer to https://github.com/ros-drivers/nmea_navsat_driver/tree/jade-devel
 ```
 $ cd ~/catkin_ws/src/
 $ git clone https://github.com/ros-drivers/nmea_navsat_driver -b jade-devel
@@ -47,8 +48,7 @@ $ catkin_make install
 $ source devel/setup.bash
 ```
 ## Testing the GPS
-
-
+GPS model: Microsoft GPS-500 SiRF III
 ```
 $ ls -l /dev/ttyU*
 crw-rw---- 1 root dialout 188, 0 Jun 12 13:28 /dev/ttyUSB0
@@ -81,5 +81,13 @@ position_covariance_type: 1
 ```
 It works.
 
+## Processing GPS datastream
+```
+$ python
+>>> import utm
+>>> utm.from_latlon(51.0330233333, -114.179133333)
+(697781.8893373396, 5657284.079908007, 11, 'U')
 
-
+>>> utm.to_latlon(697781.8893373396, 5657284.079908007, 11, 'U')
+(51.033023329411165, -114.17913242822722)
+```
