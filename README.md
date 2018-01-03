@@ -1,7 +1,7 @@
 # GPS-in-ROS
 Install GPS in ROS environment
 
-## Create ROS carkin workspace
+## Create ROS catkin workspace
 ```
 $ mkdir -p ~/catkin_ws/src
 $ cd ~/catkin_ws/src
@@ -30,50 +30,56 @@ Install space: /home/rainbow/catkin_ws/install
 ####
 #### Running command: "cmake /home/rainbow/catkin_ws/src -DCATKIN_DEVEL_PREFIX=/home/rainbow/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/rainbow/catkin_ws/install -G Unix Makefiles" in "/home/rainbow/catkin_ws/build"
 ####
--- The C compiler identification is GNU 5.4.0
--- The CXX compiler identification is GNU 5.4.0
--- Check for working C compiler: /usr/bin/cc
--- Check for working C compiler: /usr/bin/cc -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: /usr/bin/c++
--- Check for working CXX compiler: /usr/bin/c++ -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Using CATKIN_DEVEL_PREFIX: /home/rainbow/catkin_ws/devel
--- Using CMAKE_PREFIX_PATH: /opt/ros/kinetic
--- This workspace overlays: /opt/ros/kinetic
--- Found PythonInterp: /usr/bin/python (found version "2.7.12") 
--- Using PYTHON_EXECUTABLE: /usr/bin/python
--- Using Debian Python package layout
--- Using empy: /usr/bin/empy
--- Using CATKIN_ENABLE_TESTING: ON
--- Call enable_testing()
--- Using CATKIN_TEST_RESULTS_DIR: /home/rainbow/catkin_ws/build/test_results
--- Looking for pthread.h
--- Looking for pthread.h - found
--- Looking for pthread_create
--- Looking for pthread_create - not found
--- Looking for pthread_create in pthreads
--- Looking for pthread_create in pthreads - not found
--- Looking for pthread_create in pthread
--- Looking for pthread_create in pthread - found
--- Found Threads: TRUE  
--- Found gtest sources under '/usr/src/gtest': gtests will be built
--- Using Python nosetests: /usr/bin/nosetests-2.7
--- catkin 0.7.8
--- BUILD_SHARED_LIBS is on
--- Configuring done
--- Generating done
--- Build files have been written to: /home/rainbow/catkin_ws/build
+
 ####
 #### Running command: "make -j8 -l8" in "/home/rainbow/catkin_ws/build"
 ####
 rainbow@rainbow-T3500:~/catkin_ws$ ls
 build  devel  src
 ~~~
+## Install GPS Driver
+```
+$ cd ~/catkin_ws/src/
+$ git clone https://github.com/ros-drivers/nmea_navsat_driver -b jade-devel
+$ cd ..
+$ catkin_make
+$ catkin_make install
+$ source devel/setup.bash
+```
+## Testing the GPS
+
+
+```
+$ ls -l /dev/ttyU*
+crw-rw---- 1 root dialout 188, 0 Jun 12 13:28 /dev/ttyUSB0
+$ sudo usermod -a -G dialout [user]
+$ sudo chmod 666 /dev/ttyUSB0
+to add 'rw_' for all users.
+
+$ rosrun nmea_navsat_driver nmea_serial_driver _port:=/dev/ttyUSB0 fix:=/gps/fix
+```
+In new terminal 
+```
+$ rostopic list
+/gps/fix
+$ rostopic echo /gps/fix
+header: 
+  seq: 323
+  stamp: 
+    secs: 1514960246
+    nsecs: 460407972
+  frame_id: "/gps"
+status: 
+  status: 0
+  service: 1
+latitude: 51.0330016667
+longitude: -114.179218333
+altitude: 1196.7
+position_covariance: [1.44, 0.0, 0.0, 0.0, 1.44, 0.0, 0.0, 0.0, 5.76]
+position_covariance_type: 1
+---
+```
+It works.
+
+
 
