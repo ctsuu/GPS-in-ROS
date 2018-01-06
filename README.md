@@ -55,7 +55,10 @@ crw-rw---- 1 root dialout 188, 0 Jun 12 13:28 /dev/ttyUSB0
 $ sudo usermod -a -G dialout [user]
 $ sudo chmod 666 /dev/ttyUSB0
 to add 'rw_' for all users.
-
+$ roscore
+```
+In new terminal
+```
 $ rosrun nmea_navsat_driver nmea_serial_driver _port:=/dev/ttyUSB0 fix:=/gps/fix
 ```
 In new terminal 
