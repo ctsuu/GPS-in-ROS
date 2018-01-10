@@ -94,3 +94,11 @@ $ python
 >>> utm.to_latlon(697781.8893373396, 5657284.079908007, 11, 'U')
 (51.033023329411165, -114.17913242822722)
 ```
+
+## Integrate into ROS launch file
+Add the following lines into launch file
+```
+  <!-- The gps node -->
+  <node name="nmea_serial_driver" type="nmea_serial_driver" pkg="nmea_navsat_driver"
+  args="fix:=/gps/fix" />
+```
