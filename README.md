@@ -102,3 +102,6 @@ Add the following lines into launch file
   <node name="nmea_serial_driver" type="nmea_serial_driver" pkg="nmea_navsat_driver"
   args="fix:=/gps/fix" />
 ```
+## Future Work
+Do something like that
+https://www.youtube.com/watch?v=uilJtMOip5k
